@@ -86,12 +86,16 @@ class BankClient{
         for(Account*acc :accounts){
             acc->deposit(1000);//alla accounts allow deposits
         //assuming all accounts support withdrawl (LSP violation)
-            try{
-            acc->withdrawl(500);
-        }
-        catch(const logic_error& e){
-            cout<<"Exception:"<<e.what()<<endl;
-        }
+            if(typeid(*acc)==typeid(FixedAccount)){
+                cout<<"Skipping withdrawl for fixed term account"<<endl;
+            }
+            else{
+                try{
+                    acc->withdrawl(500);
+                }catch(const logic_error& e){
+                    cout<<"Exception:"<<e.what()<<endl;
+                }
+            }
     
     }
 
